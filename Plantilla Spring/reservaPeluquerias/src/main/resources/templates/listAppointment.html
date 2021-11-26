@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
+    <script th:src="@{/js/jquery.js}"></script>
+    <script th:src="@{/js/tableFilter.js}"></script>
+</head>
+<body>
+    <div th:insert="fragments :: menu"></div>
+    <div class="alert alert-warning" th:if="${error}" role="alert">
+        <span>El turno esta en conflicto con otro turno aprobado</span>
+    </div>
+    <div class="input-group mb-3">
+        <select class="custom-select" id="filter">
+            <option th:each="branch:${branches.findAll()}" th:value="${branch.name}" th:text="${branch.name}"></option>
+        </select>
+        <div class="input-group-append">
+            <button class="btn btn-outline-info" id="filterButton">Filtrar</button>
+        </div>
+    </div>
+    <div> 
+        <a th:href="@{/user/List/Appointments?order=true}" class="btn btn-info">Confirmados</a>
+        <a th:href="@{/user/List/Appointments?order=false}" class="btn btn-info">Sin Confirmar</a>
+        <a th:href="@{/user/deleteCompleted}" class="btn btn-info">Eliminar Completadas</a>
+        <table  class="table  table-striped">
+            <thead class="thead-dark">
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Sucursal</th>
+                <th>Inicio</th>
+                <th>Fin</th>
+                <th>Duración</th>
+                <th>Fecha</th>
+                <th>Eliminar</th>
+                <th th:if="${!order}">Confirmar</th>
+            </thead>
+            <tr th:each="appointments : ${List}"  class="list">
+                <td th:text="${appointments.id}"></td>
+                <td th:text="${customers.findById(appointments.customerId).getEmail()}"></td>
+                <td th:text="${branches.findById(appointments.branchId).getName()}" class="branch"></td>
+                <td th:text="${appointments.time}"></td>
+                <td th:text="${appointments.getEndTime()}"></td>
+                <td th:text="${appointments.duration}"></td>
+                <td th:text="${appointments.date}"></td>
+                <td><a th:href="@{'/user/AppointmentDeletion/'+${appointments.id}}">Eliminar</a></td>
+                <td th:if="${!order}"><a th:href="@{'/user/AppointmentConfirmation/'+${appointments.id}}">Confirmar</a></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

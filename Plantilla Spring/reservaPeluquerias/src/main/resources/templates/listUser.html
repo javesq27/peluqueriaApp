@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+	<link th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
+</head>
+<body>
+    <div th:insert="fragments :: scripts"></div>
+    <div th:insert="fragments :: menu"></div>
+    <div sec:authorize="hasRole('ADMIN')" class="alert alert-primary" role="alert">
+        <a id="add" class="alert-link"> + Añadir Nuevo</a>
+
+        <form id="form" action="#" th:action="@{/user/ConfirmUsers}" th:object="${user}" method="post" class="form-group">
+            <label for="">Nombre</label>
+            <br>
+            <input type="text" id="name" name="name" th:field="*{name}" class="form-control"  required maxlength="225">
+            <br>
+            <label for="">Nombre de Usuario</label>
+            <br>
+            <input type="text" id="username" name="username" th:field="*{username}" class="form-control"  required maxlength="225">
+            <br>
+            <label for="">Contraseña</label>
+            <br>
+            <input type="password" id="password" name="password" th:field="*{password}" class="form-control"  required maxlength="225">
+            <br>
+            <label for="">Rol</label>
+            <br>
+            <select name="role" id="role" th:field="*{role}" class="form-control" required>
+                <option th:each="role : ${T(ub.tp.reservaPeluquerias.Model.Roles).values()}" th:value="${role}" th:text="${role.displayValue}"></option>
+            </select>
+            <br>
+            <input type="submit" value="Enviar" class="btn btn-primary">
+        </form>
+    </div>
+    <div>
+        <table  class="table  table-striped">
+            <thead class="thead-dark">
+                <th>ID</th>
+                <th>Nombre de Usuario</th>
+                <th>Nombre</th>
+                <th>Rol</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+            </thead>
+            <tr th:each="user:${List}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.role}"></td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{'/user/deleteUser/'+${user.id}}">Eliminar</a></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

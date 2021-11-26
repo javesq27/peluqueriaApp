@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div th:fragment="scripts">
+        <script th:src="@{/js/jquery.js}"></script>
+        <script th:src="@{/js/formFilter.js}"></script>
+    </div>
+
+    <div th:fragment="menu">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="collapse navbar-collapse" sec:authorize="!isAuthenticated()">
+                <a class="navbar-brand" href="/guest">
+                    <img src="/images/LogoResizedTransparent.png" alt="LOGO">   
+                </a>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item mr-sm-2">
+                        <a class="btn btn-outline-light" href="/guest/AppointmentOrder">Pedir Turno</a>
+                    </li>
+                    <li class="nav-item mr-sm-2">
+                        <a class="btn btn-outline-info" href="/login">Ingresa como Usuario</a>
+                    </li>
+                    <li class="nav-item mr-sm-2">
+                        <form th:action="@{/guest/checkAppointment}" method="post" class="form-inline">
+                            <input name="search" class="form-control mr-sm-2" type="search" placeholder="Codigo de Turno" aria-label="Search">
+                            <button type="submit" class="btn btn-outline-info">Consultar mi Turno</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse" sec:authorize="isAuthenticated()">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item mr-sm-2">
+                        <a class="btn btn-outline-light" href="/user/List/Appointments">Lista de Turnos</a>
+                    </li>
+                    <li class="nav-item mr-sm-2">
+                        <a class="btn btn-outline-info" href="/user/List/Services">Lista de Servicios</a>
+                    </li>
+                    <li class="nav-item mr-sm-2">
+                        <a class="btn btn-outline-info" href="/user/List/Users">Lista de Usuarios</a>
+                    </li>
+                    <li class="nav-item mr-sm-2">
+                        <a class="btn btn-outline-info" href="/user/List/Branches">Lista de Sucursales</a>
+                    </li>
+                    <li class="nav-item mr-sm-2">
+                        <a class="btn btn-outline-info" href="/user/List/Customer">Lista de Clientes</a>
+                    </li>
+                    <li class="nav-item mr-sm-2">
+                        <a class="btn btn-outline-warning" href="/logout">Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes</title>
+	<link th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
+</head>
+<body>
+    <div th:insert="fragments :: scripts"></div>
+    <div th:insert="fragments :: menu"></div>
+    <div>
+        <table  class="table  table-striped">
+            <thead class="thead-dark">
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>E-Mail</th>
+                <th>Eliminar</th>
+            </thead>
+            <tr th:each="customer:${list}">
+                <td th:text="${customer.id}"></td>
+                <td th:text="${customer.name}"></td>
+                <td th:text="${customer.email}"></td>
+                <td><a th:href="@{'/user/deleteCustomer/'+${customer.id}}">Eliminar</a></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

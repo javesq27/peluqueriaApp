@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo Turno</title>
+	<link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+</head>
+<body>
+    <div th:insert="fragments :: menu"></div>
+    <form action="#" th:action="@{/guest/AppointmentPending}" th:object="${appointment}" method="post" class="form-group">
+        <p th:if="${error}" class="text-danger">La fecha elegida es invalida</p>
+        <label for="">Nombre</label>
+        <br>
+        <input type="text" name="name" class="form-control" required maxlength="225">
+        <br>
+        <label for="">E-Mail</label>
+        <br>
+        <input type="email" name="email" class="form-control" required maxlength="225">
+        <br>
+        <label for="">Hora</label>
+        <br>
+        <input type="time" name="time" id="time" th:field="*{time}" class="form-control" required>
+        <br>
+        <label for="">Fecha</label>
+        <br>
+        <input type="date" name="date" id="date" th:field="*{date}" class="form-control" required>
+        <br>
+        <label for="">Sucursal</label>
+        <br>
+        <select name="branchId" id="branchId" th:field="*{branchId}" class="form-control" required>
+            <option th:each="branch:${branchList}" th:value="${branch.id}" th:text="${branch.address}"></option>
+        </select>
+        <br>
+        <label for="">Servicio</label>
+        <br>
+        <select name="serviceId" id="serviceId" th:field="*{serviceId}" class="form-control" required>
+            <option th:each="service:${serviceList}" th:value="${service.id}" th:text="${service.name}+' - $'+${service.price}+' - '+${service.serviceTime}+' minutos'"></option>
+        </select>
+        <br>
+        <input type="submit" value="Enviar" class="btn btn-primary">
+    </form>
+    
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+    <link th:href="@{/css/mainPage.css}" rel="stylesheet" />
+    <link th:href="@{/css/fragments.css}" rel="stylesheet" />
+
+    <script th:src="@{/js/jquery.js}"></script>
+    <script th:src="@{/js/main.js}" defer></script>
+
+</head>
+<body>
+    <div th:insert="fragments :: menu"></div>
+
+    <div th:if="${exists} != null" class="alert alert-primary" role="alert">
+        <span class="alert-link" th:if="!${exists}">El código de seguimiento del turno es incorrecto o no existe.</span>
+        <span class="alert-link" th:if="${confirmed != null}" th:text="${confirmed} ? 'Su turno está Confirmado.' : 'La confirmación de su turno se encuentra pendiente.'"></span>
+        <span class="alert-link" th:if="${confirmed}" th:text="'Está programado para el día ' + ${date} + ' a las ' + ${time} + 'hs.'"></span>
+    </div>
+
+    <div class="block">
+        <div class="bg_img1"></div>
+        <div class="bg_img2">
+            <h1>Bienvenido a Lecter's Salon</h1>
+            <h2>Votado como el mejor salón de estética del Área Metropolitana</h2>
+            <h2>Contamos con una amplia variedad de servicios, desde cortes de cabello y color hasta producciones más específicas!</h2>
+            <h2>Cotice y reserve su turno <a th:href="@{/guest/AppointmentOrder}">aquí</a>.</h2>
+        </div>        
+    </div>
+    
+    <div class="scroller_container">
+        <div class="scrollheader">
+            <a class="prev" onclick="nextImg(-1)">&#10094; Anterior</a>
+            <h4 style="text-align: center;">Nuestro trabajo</h4>
+            <a class="next" onclick="nextImg(1)">Siguiente &#10095;</a>
+        </div> 
+        <div class="mySlides">
+            <img th:src="@{/images/Muestras/Muestra1.jpg}">
+        </div>
+        <div class="mySlides">
+            <img th:src="@{/images/Muestras/Muestra2.jpg}">
+        </div>
+        <div class="mySlides">
+            <img th:src="@{/images/Muestras/Muestra3.jpg}">
+        </div>
+        <div class="mySlides">
+            <img th:src="@{/images/Muestras/Muestra4.jpg}">
+        </div>
+        <div class="mySlides">
+            <img th:src="@{/images/Muestras/Muestra5.jpg}">
+        </div>     
+    </div>
+    
+    <div class="services">
+        <table cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <th class="name">Nombre</th>
+                    <th>Precio</th>
+                    <th>Duracion</th>
+                </tr>
+            </thead>
+            <tr th:each="service:${List}">
+                <td th:text="${service.name}"></td>
+                <td th:text="'$' + ${service.price}"></td>
+                <td th:text="${service.serviceTime} + ' Minutos'"></td>
+            </tr>
+        </table>
+    </div>
+
+    <footer>Todos los derechos reservados Lecter's Salon 2021 ® </footer>
+</body>
+</html>

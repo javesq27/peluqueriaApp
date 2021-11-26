@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+	<link th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
+</head>
+<body>
+    <div th:insert="fragments :: scripts"></div>
+    <div th:insert="fragments :: menu"></div>
+    <div sec:authorize="hasRole('ADMIN')" class="alert alert-primary" role="alert">
+        <a id="add" class="alert-link"> + Añadir Nuevo</a>
+        
+        <form id="form" action="#" th:action="@{/user/ConfirmServices}" th:object="${service}" method="post" class="form-group">
+            <label for="">Nombre</label>
+            <br>
+            <input type="text" name="name" id="name" th:field="*{name}" class="form-control" required maxlength="225">
+            <br>
+            <label for="">Descripción</label>
+            <br>
+            <input type="text" name="description" id="description" th:field="*{description}" class="form-control" maxlength="225">
+            <br>
+            <label for="">Duración</label>
+            <br>
+            <input type="number" name="serviceTime" id="serviceTime" th:field="*{serviceTime}" class="form-control" required>
+            <br>
+            <label for="">Precio</label>
+            <br>
+            <input type="number" name="price" id="price" th:field="*{price}" class="form-control" required>
+            <br>
+            <input type="submit" value="Enviar" class="btn btn-primary">
+        </form>
+    </div>
+    <div>
+        <table  class="table  table-striped">
+            <thead class="thead-dark">
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Precio</th>
+                <th>Duracion</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+            </thead>
+            <tr  th:each="service:${List}">
+                <td th:text="${service.id}"></td>
+                <td th:text="${service.name}"></td>
+                <td th:text="${service.description}"></td>
+                <td th:text="${service.price}"></td>
+                <td th:text="${service.serviceTime}"></td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{'/user/deleteService/'+${service.id}}">Eliminar</a></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
